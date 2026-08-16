@@ -1,349 +1,541 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Service Starting Soon</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KICC | Service Starting Soon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    :root{
-      --bg: radial-gradient(circle at 25% 20%, rgba(245, 183, 79, 0.22), transparent 62%), #071626;
-      --accent: #f5b74f;
-      --teal: #29a48f;
-      --ticker-height: 80px;
-      --ticker-speed: 12s;
+    :root {
+      --bg-1: #06131e;
+      --bg-2: #0d2030;
+      --panel: rgba(8, 18, 28, 0.72);
+      --panel-strong: rgba(10, 20, 30, 0.86);
+      --gold: #e3b75b;
+      --gold-soft: #f5d88f;
+      --teal: #3ec7b1;
+      --teal-soft: #8fe7d8;
+      --text: #f3f7fb;
+      --muted: rgba(243, 247, 251, 0.75);
+      --line: rgba(255,255,255,0.14);
+      --shadow: rgba(0, 0, 0, 0.38);
+      --ticker-height: 78px;
+      --ticker-speed: 24s;
     }
-    *{
-      box-sizing: border-box;
-    }
-    body {
+
+    * { box-sizing: border-box; }
+
+    html, body {
       margin: 0;
-      font-family: 'Poppins', Arial, sans-serif;
-      background:
-        linear-gradient(145deg, rgba(7, 22, 38, 0.95), rgba(12, 36, 56, 0.92)),
-        var(--bg);
-      color: #f6f8ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 20%, rgba(227,183,91,0.14), transparent 20%),
+                  radial-gradient(circle at 80% 15%, rgba(62,199,177,0.18), transparent 24%),
+                  linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      color: var(--text);
+      font-family: "Inter", sans-serif;
       overflow: hidden;
-      padding: 32px 18px;
+    }
+
+    body {
       position: relative;
+      display: grid;
+      place-items: center;
+      padding: 36px;
     }
+
     body::before,
-    body::after{
-      content:"";
-      position:absolute;
-      border-radius:50%;
-      filter: blur(8px);
-      opacity: 0.55;
+    body::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(22px);
+      opacity: 0.7;
+      pointer-events: none;
     }
-    body::before{
+
+    body::before {
       width: 420px;
       height: 420px;
-      top:-160px;
-      right:-140px;
-      background: radial-gradient(circle, rgba(41,164,143,0.35), transparent 70%);
+      top: -160px;
+      right: -80px;
+      background: rgba(62, 199, 177, 0.16);
     }
-    body::after{
-      width: 360px;
-      height: 360px;
-      bottom:-180px;
-      left:-120px;
-      background: radial-gradient(circle, rgba(245,183,79,0.3), transparent 68%);
+
+    body::after {
+      width: 500px;
+      height: 500px;
+      bottom: -220px;
+      left: -140px;
+      background: rgba(227,183,91,0.12);
     }
-    main{
+
+    .screen {
       position: relative;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:24px;
-      width: min(1080px, 100%);
-      text-align: center;
-      z-index:1;
-    }
-    h1{
-      margin:0;
-      font-family:'Playfair Display', serif;
-      font-size: clamp(2.2rem, 4vw, 3.1rem);
-      letter-spacing: 0.04em;
-      text-shadow: 0 18px 36px rgba(0,0,0,0.45);
-    }
-    p.subtitle{
-      margin:6px 0 12px;
-      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
-      color: rgba(246, 248, 255, 0.78);
-      letter-spacing: 0.03em;
-    }
-    .ticker-shell{
-      width: 100%;
-      background: rgba(6, 18, 31, 0.72);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 20px;
-      padding: 18px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 24px 50px rgba(3,10,20,0.45);
-    }
-    .ticker{
-      position: relative;
-      height: var(--ticker-height);
+      width: min(1220px, 100%);
+      min-height: 700px;
+      padding: 30px 42px 28px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(10,19,29,0.56), rgba(8,16,24,0.72));
+      box-shadow: 0 28px 80px rgba(0,0,0,0.42);
       overflow: hidden;
-      border-radius: 14px;
-      background: linear-gradient(120deg, rgba(15, 46, 69, 0.9), rgba(6, 22, 37, 0.9));
+      z-index: 1;
+    }
+
+    .screen::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
       border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      pointer-events: none;
     }
-    .ticker::before,
-    .ticker::after{
-      content:"";
-      position:absolute;
-      top:0;
-      width: 80px;
-      height:100%;
-      z-index:2;
+
+    .topbar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      margin-bottom: 28px;
     }
-    .ticker::before{
-      left:0;
-      background: linear-gradient(to right, rgba(6, 12, 16, 0.65), transparent);
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
     }
-    .ticker::after{
-      right:0;
-      background: linear-gradient(to left, rgba(6, 12, 16, 0.65), transparent);
+
+    .brand-mark {
+      width: 62px;
+      height: 62px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(227,183,91,0.17), rgba(62,199,177,0.18));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+      flex-shrink: 0;
     }
-    .track{
-      display:flex;
-      align-items:center;
-      gap: 68px;
-      height: 100%;
-      animation: ticker-move var(--ticker-speed) linear infinite;
-      will-change: transform;
+
+    .brand-mark img {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.28));
     }
-    .item{
-      display:flex;
-      align-items:center;
-      gap: 18px;
-      font-weight: 600;
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      letter-spacing: 0.05em;
+
+    .brand-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .brand-name {
+      font-size: 0.82rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold-soft);
+      white-space: nowrap;
+    }
+
+    .brand-sub {
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(227,183,91,0.45);
+      background: rgba(227,183,91,0.10);
+      color: var(--gold-soft);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       white-space: nowrap;
     }
-    .item img{
-      height: 42px;
-      width: 42px;
+
+    .status-pill::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 18px rgba(62, 199, 177, 0.9);
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: center;
+      min-height: 500px;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      padding-right: 12px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.02);
+      color: var(--gold-soft);
+      letter-spacing: 0.22em;
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 16px rgba(227,183,91,0.9);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 700;
+      font-size: clamp(3.4rem, 6vw, 7rem);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+      color: #f7f9fc;
+      text-shadow: 0 18px 38px rgba(0,0,0,0.34);
+    }
+
+    .highlight {
+      color: var(--gold-soft);
+      display: block;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 700px;
+      color: var(--muted);
+      font-size: clamp(1.1rem, 1.6vw, 1.45rem);
+      line-height: 1.6;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, var(--gold), #c99841);
+      color: #1a1308;
+      border-color: transparent;
+      box-shadow: 0 16px 26px rgba(201,152,65,0.32);
+    }
+
+    .info-panel {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
+      min-height: 430px;
+      padding: 28px 24px 22px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(16,29,39,0.72), rgba(9,16,23,0.8));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 16px 32px rgba(0,0,0,0.24);
+    }
+
+    .info-panel::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+
+    .card-header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--gold-soft);
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .card-header span:last-child {
+      color: var(--teal-soft);
+    }
+
+    .service-card {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .service-time {
+      font-size: clamp(2.1rem, 3vw, 3rem);
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      color: var(--text);
+    }
+
+    .service-meta {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+
+    .meta-item {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .meta-item strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .ticker-wrap {
+      position: relative;
+      z-index: 2;
+      margin-top: 18px;
+      border-radius: 18px;
+      background: rgba(9, 16, 23, 0.8);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.22);
+      overflow: hidden;
+    }
+
+    .ticker {
+      position: relative;
+      height: var(--ticker-height);
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(9, 24, 34, 0.9), rgba(12, 25, 34, 0.86));
+    }
+
+    .ticker::before,
+    .ticker::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 70px;
+      height: 100%;
+      z-index: 2;
+    }
+
+    .ticker::before {
+      left: 0;
+      background: linear-gradient(90deg, rgba(6, 19, 30, 0.98), rgba(6, 19, 30, 0.0));
+    }
+
+    .ticker::after {
+      right: 0;
+      background: linear-gradient(270deg, rgba(6, 19, 30, 0.98), rgba(6, 19, 30, 0.0));
+    }
+
+    .ticker-track {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      width: max-content;
+      padding-left: 18px;
+      animation: marquee var(--ticker-speed) linear infinite;
+      white-space: nowrap;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .ticker-item b {
+      color: var(--gold-soft);
+      font-weight: 800;
+    }
+
+    .ticker-item img {
+      width: 24px;
+      height: 24px;
       object-fit: contain;
-      filter: drop-shadow(0 12px 18px rgba(0,0,0,0.35));
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.28));
     }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      background: rgba(245, 183, 79, 0.16);
-      color: var(--accent);
-      border:1px solid rgba(245,183,79,0.45);
-      padding: 6px 14px;
-      border-radius:999px;
-      font-size: 0.8rem;
-      letter-spacing:0.12em;
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
-    .sep{
-      opacity:0.35;
-      font-weight:400;
-      letter-spacing:0.18em;
-    }
-    .cta-note{
-      margin:0;
-      font-size: clamp(0.95rem, 1.6vw, 1.05rem);
-      color: rgba(246,248,255,0.7);
-      letter-spacing: 0.04em;
-    }
-    .cta-note strong{
-      color: #fff;
-    }
-    @keyframes ticker-move{
-      from{
-        transform: translateX(0);
+
+    @media (max-width: 900px) {
+      body { padding: 20px; }
+      .screen {
+        min-height: auto;
+        padding: 22px 22px 18px;
       }
-      to{
-        transform: translateX(-50%);
+      .content {
+        grid-template-columns: 1fr;
       }
-    }
-    @media (max-width: 640px){
-      body{
-        padding: 40px 16px;
+      .hero {
+        padding-right: 0;
       }
-      .ticker-shell{
-        padding: 14px;
-      }
-      .item img{
-        height: 34px;
-        width:34px;
-      }
-      .item{
-        gap:12px;
-      }
-      .pill{
-        font-size: 0.72rem;
-        padding:5px 12px;
-      }
-    }
-    @media (prefers-reduced-motion: reduce){
-      .track{
-        animation: none;
-        transform: translateX(0);
+      .info-panel {
+        min-height: auto;
       }
     }
 
-    body.ticker-only{
-      background: transparent;
-      padding: 0;
-      height: auto;
-      min-height: 0;
-      display: block;
-    }
-    body.ticker-only::before,
-    body.ticker-only::after{
-      display:none;
-    }
-    body.ticker-only main{
-      position: fixed;
-      inset: auto 0 24px 0;
-      margin: 0 auto;
-      width: min(90vw, 960px);
-      background: transparent;
-      gap: 12px;
-      align-items: stretch;
-    }
-    body.ticker-only h1,
-    body.ticker-only .subtitle,
-    body.ticker-only .cta-note,
-    body.ticker-only .view-toggle{
-      display: none;
-    }
-    body.ticker-only .ticker-shell{
-      padding: 0;
-      background: rgba(6, 18, 31, 0.78);
-    }
-    body.ticker-only .ticker{
-      height: 68px;
-    }
-    .view-toggle{
-      position: absolute;
-      top: 18px;
-      right: 20px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.4);
-      background: rgba(6, 22, 37, 0.42);
-      color: #fff;
-      font-size: 0.85rem;
-      letter-spacing: 0.04em;
-      cursor: pointer;
-      transition: background 200ms ease;
-    }
-    .view-toggle:hover{
-      background: rgba(6, 22, 37, 0.65);
-    }
-    body.ticker-only .view-toggle{
-      display: inline-flex;
-      position: fixed;
-      top: 16px;
-      right: 16px;
+    @media (max-width: 560px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .status-pill {
+        letter-spacing: 0.12em;
+      }
+      .cta-row {
+        flex-direction: column;
+      }
+      .button {
+        width: 100%;
+      }
+      h1 {
+        letter-spacing: -0.04em;
+      }
     }
   </style>
 </head>
-<body class="ticker-only">
-  <main>
-    <button class="view-toggle" id="view-toggle" type="button">Ticker Overlay Mode</button>
-    <h1>We’re Live in a Moment</h1>
-    <p class="subtitle">Grab your seat, greet a neighbour, and prepare your heart for worship.</p>
-    <div class="ticker-shell">
-      <div class="ticker" role="marquee" aria-label="Service starting soon ticker">
-        <div class="track" id="ticker-track" data-logo="kicc.png"></div>
+<body>
+  <main class="screen">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="kicc.png" alt="KICC logo" />
+        </div>
+        <div class="brand-copy">
+          <span class="brand-name">KICC Wolverhampton</span>
+          <span class="brand-sub">A church for every generation</span>
+        </div>
+      </div>
+      <div class="status-pill">Service starting soon</div>
+    </header>
+
+    <section class="content">
+      <div class="hero">
+        <div class="eyebrow">Welcome home</div>
+        <h1>Come <span class="highlight">worship</span> with us</h1>
+        <p class="subtitle">
+          We are preparing our hearts to hear the Word, encounter God, and worship together as one family.
+        </p>
+
+        <div class="cta-row">
+          <a class="button primary" href="#">Join us today</a>
+          <a class="button" href="#">Plan your visit</a>
+        </div>
+      </div>
+
+      <aside class="info-panel">
+        <div class="card-header">
+          <span>Sunday</span>
+          <span>Worship service</span>
+        </div>
+
+        <div class="service-card">
+          <div class="service-time">11:00 AM</div>
+          <div class="service-meta">
+            <div class="meta-item"><strong>Doors open:</strong> 10:30 AM</div>
+            <div class="meta-item"><strong>Location:</strong> Dunstall Hill Community Centre, WV6 0NH</div>
+            <div class="meta-item"><strong>Children:</strong> Kids church available</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <div class="ticker-wrap" aria-label="Announcements">
+      <div class="ticker">
+        <div class="ticker-track" id="tickerTrack">
+          <span class="ticker-item"><img src="kicc.png" alt="KICC logo" /><b>Welcome</b> to church</span>
+          <span class="ticker-item"><b>Prayer</b> • healing • hope</span>
+          <span class="ticker-item"><b>Worship</b> • praise • gratitude</span>
+          <span class="ticker-item"><b>Word</b> • faith • direction</span>
+          <span class="ticker-item"><b>Community</b> • love • belonging</span>
+          <span class="ticker-item"><b>Family</b> • unity • joy</span>
+          <span class="ticker-item"><img src="kicc.png" alt="KICC logo" /><b>Welcome</b> to church</span>
+          <span class="ticker-item"><b>Prayer</b> • healing • hope</span>
+          <span class="ticker-item"><b>Worship</b> • praise • gratitude</span>
+          <span class="ticker-item"><b>Word</b> • faith • direction</span>
+          <span class="ticker-item"><b>Community</b> • love • belonging</span>
+          <span class="ticker-item"><b>Family</b> • unity • joy</span>
+        </div>
       </div>
     </div>
-    <p class="cta-note"><strong>Need anything?</strong> Our welcome team is ready to help you get settled.</p>
   </main>
-  <script>
-    const messages = [
-      { label: "Service Alert", text: "Service is starting soon" },
-      { label: "Welcome", text: "We’re so glad you’re here" },
-      { label: "Stay Connected", text: "Follow @KICC Wolverhampton" },
-      { label: "Sound Check", text: "Test your audio on Zoom" },
-      { label: "Giving", text: "Prepare your seed of thanksgiving" }
-    ];
-
-    const track = document.getElementById("ticker-track");
-    const logoSrc = track.dataset.logo || "kicc.png";
-
-    function createItem({ label, text }) {
-      const fragment = document.createDocumentFragment();
-
-      const item = document.createElement("div");
-      item.className = "item";
-
-      const logo = document.createElement("img");
-      logo.src = logoSrc;
-      logo.alt = "KICC Wolverhampton";
-
-      const pill = document.createElement("span");
-      pill.className = "pill";
-      pill.textContent = label;
-
-      const content = document.createElement("span");
-      content.textContent = text;
-
-      item.append(logo, pill, content);
-      fragment.appendChild(item);
-
-      const separator = document.createElement("span");
-      separator.className = "sep";
-      separator.textContent = "•";
-      fragment.appendChild(separator);
-
-      return fragment;
-    }
-
-    function populateTrack() {
-      track.innerHTML = "";
-      const fullMessages = [...messages, ...messages]; // duplicate for seamless loop
-      fullMessages.forEach((msg, index) => {
-        const fragment = createItem(msg);
-        track.appendChild(fragment);
-        if (index === fullMessages.length - 1) {
-          track.lastChild.remove(); // remove trailing separator
-        }
-      });
-    }
-
-    populateTrack();
-
-    const toggleButton = document.getElementById("view-toggle");
-
-    function setTickerOnlyMode(enable) {
-      document.body.classList.toggle("ticker-only", enable);
-      if (toggleButton) {
-        toggleButton.textContent = enable ? "Full Screen Mode" : "Ticker Overlay Mode";
-      }
-    }
-
-    toggleButton?.addEventListener("click", () => {
-      const nextState = !document.body.classList.contains("ticker-only");
-      setTickerOnlyMode(nextState);
-    });
-
-    function initFromParams() {
-      const params = new URLSearchParams(window.location.search);
-      const hash = window.location.hash.toLowerCase();
-      if (params.get("mode") === "overlay" || hash.includes("overlay")) {
-        setTickerOnlyMode(true);
-      }
-    }
-
-    initFromParams();
-    setTickerOnlyMode(document.body.classList.contains("ticker-only"));
-  </script>
 </body>
 </html>
