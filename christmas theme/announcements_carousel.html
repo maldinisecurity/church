@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christmas Announcements Carousel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pine: #0d1a13;
+      --evergreen: #123424;
+      --cranberry: #c83d38;
+      --gold: #e0c27a;
+      --glass: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.18);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 18% 14%, rgba(224,194,122,0.26), transparent 34%),
+        radial-gradient(circle at 82% 14%, rgba(200,61,56,0.26), transparent 34%),
+        linear-gradient(135deg, var(--pine), var(--evergreen) 52%, #5a1c15);
+      color: #f6f7fb;
+      font-family: 'Work Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
+      padding: 16px;
+    }
+    .frame {
+      position: relative;
+      width: min(1100px, 96vw);
+      min-height: 320px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: linear-gradient(160deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+      box-shadow: 0 18px 42px rgba(0,0,0,0.36);
+      overflow: hidden;
+      padding: 18px;
+    }
+    .frame::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    h1 {
+      margin: 0;
+      font-family: 'Marcellus', serif;
+      letter-spacing: 0.08em;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+    }
+    .tag {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      font-size: 0.9rem;
+    }
+    .slide {
+      position: absolute;
+      inset: 18px;
+      border-radius: 18px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-content: center;
+      gap: 10px;
+      background: rgba(0,0,0,0.16);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 800ms ease, transform 800ms ease;
+      pointer-events: none;
+    }
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0);
+      z-index: 1;
+    }
+    .slide h2 {
+      margin: 0;
+      font-family: 'Marcellus', serif;
+      font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(224,194,122,0.24), rgba(200,61,56,0.24));
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 1.1rem;
+    }
+    p {
+      margin: 0;
+      font-size: 1.02rem;
+      color: rgba(246,247,251,0.85);
+      line-height: 1.6;
+    }
+    .dots {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 2;
+    }
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.1);
+      transition: transform 250ms ease, background 250ms ease;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+    .dot.active {
+      background: var(--gold);
+      transform: scale(1.2);
+    }
+    .controls {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      display: flex;
+      gap: 8px;
+      z-index: 2;
+    }
+    .btn {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.08);
+      color: #f6f7fb;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+    .btn:hover { background: rgba(255,255,255,0.14); transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <header>
+      <h1>Christmas Announcements</h1>
+      <div class="tag">KICC Wolverhampton</div>
+    </header>
+    <div class="slide active" data-idx="0">
+      <h2><span class="icon" aria-hidden="true">✨</span>Christmas Service 2025</h2>
+      <p>Welcome to KICC Wolverhampton—where champions are raised and territories taken for God.</p>
+    </div>
+    <div class="slide" data-idx="1">
+      <h2><span class="icon" aria-hidden="true">🎯</span>Our Vision</h2>
+      <p>Grow up. Grow big. Grow together.</p>
+    </div>
+    <div class="slide" data-idx="2">
+      <h2><span class="icon" aria-hidden="true">📅</span>Sunday Worship</h2>
+      <p>11:00 AM every Sunday • Doors open 10:00 AM for setup • Dunstall Hill Community Centre, WV6 0NH.</p>
+    </div>
+    <div class="slide" data-idx="3">
+      <h2><span class="icon" aria-hidden="true">💻</span>Midweek Service</h2>
+      <p>Tuesdays on Zoom, 7:00–8:00 PM. Zoom ID on screen.</p>
+    </div>
+    <div class="slide" data-idx="4">
+      <h2><span class="icon" aria-hidden="true">🤝</span>Caring Heart Fellowship</h2>
+      <p>Fridays 7:00 PM on Zoom • 1 hour of interactive discussion of God’s word.</p>
+    </div>
+    <div class="slide" data-idx="5">
+      <h2><span class="icon" aria-hidden="true">🕯️</span>30 Days Fasting & Prayer</h2>
+      <p>We are on Day 14, continuing until 30 Dec 2025. No Caring Heart Fridays this month. Tuesday prayers on Zoom 7:00–8:00 PM.</p>
+    </div>
+    <div class="slide" data-idx="6">
+      <h2><span class="icon" aria-hidden="true">🌐</span>Stay Connected</h2>
+      <p>Facebook: KICC Wolverhampton • X: @KiccWolv • YouTube: @KiccWolverhampton • Email: kiccwolverhampton@kicc.org.uk</p>
+    </div>
+    <div class="slide" data-idx="7">
+      <h2><span class="icon" aria-hidden="true">📺</span>KICC TV</h2>
+      <p>Watch innovative Christian programs on Sky, mobile app, or kicctv.tv.</p>
+    </div>
+    <div class="slide" data-idx="8">
+      <h2><span class="icon" aria-hidden="true">🧡</span>Be Your Brother’s Keeper</h2>
+      <p>Check on anyone absent for 2+ weeks. Encourage them to return. Hebrews 10:25.</p>
+    </div>
+    <div class="slide" data-idx="9">
+      <h2><span class="icon" aria-hidden="true">🌅</span>Morning Glow</h2>
+      <p>Start your day with Pastor Matthew Ashimolowo • Mon–Fri, 6:00–7:00 AM.</p>
+    </div>
+    <div class="slide" data-idx="10">
+      <h2><span class="icon" aria-hidden="true">⭐</span>Month Theme</h2>
+      <p>December 2025 — “The Great Expectation” • Acts 3:5. God will exceed your expectations.</p>
+    </div>
+    <div class="dots" aria-hidden="true">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="prevBtn" type="button">Prev</button>
+      <button class="btn" id="nextBtn" type="button">Next</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dots = Array.from(document.querySelectorAll('.dot'));
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let idx = 0;
+    const show = (n) => {
+      idx = (n + slides.length) % slides.length;
+      slides.forEach((s,i)=> {
+        s.classList.toggle('active', i === n);
+        dots[i]?.classList.toggle('active', i === n);
+      });
+    };
+    dots.forEach((dot,i) => {
+      dot.addEventListener('click', () => {
+        show(i);
+      });
+    });
+    prevBtn.addEventListener('click', () => {
+      show(idx - 1);
+    });
+    nextBtn.addEventListener('click', () => {
+      show(idx + 1);
+    });
+    show(0);
+  </script>
+</body>
+</html>

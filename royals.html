@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KICC Wolverhampton Royals • Overlay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --black-2: #121212;
+    --gold: #d9b45b;
+    --gold-bright: #f0d27a;
+    --gold-deep: #b88a2a;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    overflow: hidden;
+    font-family: 'Work Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    pointer-events: none;
+  }
+
+  .frame {
+    position: absolute;
+    inset: 10px;
+    border-radius: 18px;
+    border: 2px solid rgba(217,180,91,0.45);
+    box-shadow:
+      0 0 0 6px rgba(217,180,91,0.08),
+      0 18px 42px rgba(0,0,0,0.55);
+    background: linear-gradient(135deg, rgba(10,10,10,0.45), rgba(18,18,18,0.32), rgba(0,0,0,0.16));
+  }
+  .frame::after {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(217,180,91,0.2);
+    box-shadow: inset 0 1px 0 rgba(240,210,122,0.15);
+    pointer-events: none;
+  }
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 45%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 45%, rgba(0,0,0,0.45) 78%, rgba(0,0,0,0.6) 100%);
+    pointer-events: none;
+  }
+  .corners {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .corner {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 3px solid rgba(240,210,122,0.7);
+    border-radius: 18px;
+    filter: drop-shadow(0 10px 18px rgba(0,0,0,0.35));
+  }
+  .tl { top: 6px; left: 6px; border-right: none; border-bottom: none; }
+  .tr { top: 6px; right: 6px; border-left: none; border-bottom: none; }
+  .bl { bottom: 6px; left: 6px; border-right: none; border-top: none; }
+  .br { bottom: 6px; right: 6px; border-left: none; border-top: none; }
+
+  .title {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(240,210,122,0.22), rgba(184,138,42,0.22));
+    border: 1px solid rgba(240,210,122,0.35);
+    color: #f8f2df;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+  }
+  .subtitle {
+    position: absolute;
+    top: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "Marcellus", serif;
+    color: rgba(240,210,122,0.9);
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.45);
+  }
+  .spin-container {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 90px;
+    height: 90px;
+    perspective: 1200px;
+  }
+  .spin-box {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    transform-style: preserve-3d;
+    animation: spin3d 12s linear infinite;
+  }
+  .spin-box img {
+    width: 82%;
+    height: 82%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 16px rgba(0,0,0,0.35));
+  }
+  .spin-caption {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: rgba(240,210,122,0.88);
+    text-shadow: 0 3px 8px rgba(0,0,0,0.4);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .spin-box:hover { animation-duration: 18s; }
+  @keyframes spin3d {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+  }
+
+  .ticker-wrap {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+  }
+  .ticker-frame {
+    position: relative;
+    width: min(1200px, 100%);
+    border-radius: 14px;
+    border: 1px solid rgba(217,180,91,0.3);
+    background: linear-gradient(135deg, rgba(10,10,10,0.7), rgba(18,18,18,0.55));
+    overflow: hidden;
+    box-shadow: 0 16px 38px rgba(0,0,0,0.35);
+    padding: 6px;
+  }
+  .ticker {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(240,210,122,0.22), rgba(184,138,42,0.18), rgba(0,0,0,0.18));
+    border: 1px solid rgba(240,210,122,0.28);
+    overflow: hidden;
+  }
+  .ticker::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 18% 30%, rgba(240,210,122,0.22), transparent 34%),
+      radial-gradient(circle at 82% 22%, rgba(184,138,42,0.2), transparent 32%);
+    pointer-events: none;
+    opacity: 0.8;
+  }
+  .track {
+    display: flex;
+    width: max-content;
+    gap: 18px;
+    padding: 10px 16px;
+    align-items: center;
+    font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    animation: marquee 50s linear infinite;
+    white-space: nowrap;
+  }
+  .item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(240,210,122,0.14), rgba(0,0,0,0.18));
+    border: 1px solid rgba(240,210,122,0.24);
+    color: #f6f0de;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+  }
+  .item span { color: var(--gold-bright); }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .track { animation: none; transform: translateX(0); }
+  }
+  @media (max-width: 640px) {
+    .spin-container { width: 64px; height: 64px; }
+    .title { padding: 8px 14px; font-size: 0.85rem; }
+    .subtitle { top: 52px; font-size: 0.78rem; }
+    .corner { width: 88px; height: 88px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="frame"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="corners" aria-hidden="true">
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+  </div>
+  <div class="title">KICC Wolverhampton • Royals</div>
+  <div class="subtitle">Theme: Stewardship</div>
+  <div class="spin-container" aria-hidden="true">
+    <div class="spin-box">
+      <img src="kicc.png" alt="KICC logo spinning">
+      <div class="spin-caption">Wolverhampton</div>
+    </div>
+  </div>
+
+  <div class="ticker-wrap" aria-label="Event ticker">
+    <div class="ticker-frame">
+      <div class="ticker">
+        <div class="track" role="marquee" aria-live="polite">
+          <div class="item"><span>KICC Wolverhampton Royals</span>  Sunday 8th of February 2026</div>
+          <div class="item">Service starts 11 AM</div>
+          <div class="item">Dunstall Hill Community Centre • Wolverhampton WV6 0NH</div>
+          <div class="item">All welcome • Invite friends and family</div>
+          <div class="item"><span>KICC Wolverhampton Royals</span> Sunday 8th of February 2026</div>
+          <div class="item">Service starts 11 AM</div>
+          <div class="item">Dunstall Hill Community Centre • Wolverhampton WV6 0NH</div>
+          <div class="item">All welcome • Invite friends and family</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

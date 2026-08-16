@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Livestream Thumbnail • Christmas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pine: #0d1a13;
+      --evergreen: #123424;
+      --cranberry: #c83d38;
+      --gold: #e0c27a;
+      --frost: #f6f7fb;
+      --muted: rgba(246,247,251,0.82);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #050c07;
+      font-family: 'Work Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .stage {
+      position: relative;
+      width: 1280px;
+      height: 720px;
+      border-radius: 22px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 16%, rgba(224,194,122,0.28), transparent 36%),
+        radial-gradient(circle at 82% 14%, rgba(200,61,56,0.26), transparent 34%),
+        linear-gradient(135deg, var(--pine), var(--evergreen) 55%, #5a1c15);
+      box-shadow: 0 22px 48px rgba(0,0,0,0.45);
+      color: var(--frost);
+    }
+    .snow {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 50% 10%, rgba(255,255,255,0.75), transparent),
+        radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 70% 80%, rgba(255,255,255,0.65), transparent);
+      opacity: 0.8;
+    }
+    .halo {
+      position: absolute;
+      inset: 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.14);
+      pointer-events: none;
+    }
+    .header {
+      position: absolute;
+      top: 26px;
+      left: 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+    }
+    .logo {
+      position: absolute;
+      top: 26px;
+      right: 26px;
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,0.35));
+    }
+    .content {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 80px 32px 100px;
+      gap: 16px;
+    }
+    h1 {
+      margin: 0;
+      font-family: 'Marcellus', serif;
+      font-size: clamp(2.6rem, 6vw, 3.6rem);
+      letter-spacing: 0.08em;
+      text-shadow: 0 14px 28px rgba(0,0,0,0.4);
+    }
+    .sub {
+      margin: 0;
+      font-size: clamp(1.1rem, 2.8vw, 1.4rem);
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-shadow: 0 10px 24px rgba(0,0,0,0.35);
+    }
+    .bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(224,194,122,0.26), rgba(200,61,56,0.22));
+      border: 1px solid rgba(255,255,255,0.2);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #0d1a13;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.32);
+    }
+    .footer {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      font-size: 1rem;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.28);
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="snow" aria-hidden="true"></div>
+    <div class="halo" aria-hidden="true"></div>
+    <div class="header">KICC Wolverhampton • Christmas</div>
+    <img class="logo" src="../kicc.png" alt="KICC logo">
+    <div class="content">
+      <h1>Christmas Celebration Service</h1>
+      <p class="sub">Sunday • 11:00 AM • Dunstall Hill Community Centre, WV6 0NH</p>
+      <div class="bar">Merry Christmas — Join Us Live</div>
+    </div>
+    <div class="footer">Stream starts soon — subscribe to stay updated</div>
+  </div>
+</body>
+</html>

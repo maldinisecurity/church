@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christmas Countdown</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pine: #0d1a13;
+      --evergreen: #123424;
+      --cranberry: #c83d38;
+      --gold: #e0c27a;
+      --muted: rgba(246,247,251,0.82);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 18% 14%, rgba(224,194,122,0.28), transparent 34%),
+        radial-gradient(circle at 82% 14%, rgba(200,61,56,0.28), transparent 34%),
+        radial-gradient(circle at 50% 80%, rgba(255,255,255,0.08), transparent 40%),
+        linear-gradient(135deg, var(--pine), var(--evergreen) 52%, #5a1c15);
+      color: #f6f7fb;
+      font-family: 'Work Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
+      padding: 16px;
+    }
+    .wrap {
+      text-align: center;
+      display: grid;
+      gap: 12px;
+      width: min(960px, 96vw);
+    }
+    h1 {
+      margin: 0;
+      font-family: 'Marcellus', serif;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      letter-spacing: 0.08em;
+    }
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .timer {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 12px;
+      justify-items: center;
+    }
+    .box {
+      width: 100%;
+      padding: 18px;
+      border-radius: 16px;
+      background: linear-gradient(150deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 18px 42px rgba(0,0,0,0.35);
+    }
+    .value {
+      font-size: clamp(2.2rem, 6vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+    .label {
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .note {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>KICC Wolverhampton • Christmas Service</h1>
+    <p class="subtitle">Service begins soon — grab a seat, we start at 11:00 AM</p>
+    <div class="timer">
+      <div class="box"><div class="value" id="days">00</div><div class="label">DAYS</div></div>
+      <div class="box"><div class="value" id="hours">00</div><div class="label">HOURS</div></div>
+      <div class="box"><div class="value" id="mins">00</div><div class="label">MINS</div></div>
+      <div class="box"><div class="value" id="secs">00</div><div class="label">SECS</div></div>
+    </div>
+    <p class="note">If the countdown ends, we’re starting now—welcome!</p>
+  </div>
+
+  <script>
+    const els = {
+      days: document.getElementById('days'),
+      hours: document.getElementById('hours'),
+      mins: document.getElementById('mins'),
+      secs: document.getElementById('secs')
+    };
+    const pad = (n) => String(n).padStart(2, '0');
+    const tick = () => {
+      const now = new Date();
+      const day = now.getDay();
+      const daysToSunday = (7 - day) % 7;
+      const target = new Date(now);
+      target.setDate(now.getDate() + daysToSunday);
+      target.setHours(11, 0, 0, 0);
+      const diff = target - now;
+      const totalSecs = Math.max(0, Math.floor(diff / 1000));
+      const days = Math.floor(totalSecs / 86400);
+      const hours = Math.floor((totalSecs % 86400) / 3600);
+      const mins = Math.floor((totalSecs % 3600) / 60);
+      const secs = totalSecs % 60;
+      els.days.textContent = pad(days);
+      els.hours.textContent = pad(hours);
+      els.mins.textContent = pad(mins);
+      els.secs.textContent = pad(secs);
+    };
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>

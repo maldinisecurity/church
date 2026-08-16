@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KICC Wolverhampton Announcements</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: #0a1626;
+      --bg-mid: #10314a;
+      --gold: #f2c35c;
+      --teal: #2cb8a3;
+      --text-main: #f3f6ff;
+      --text-muted: rgba(243, 246, 255, 0.82);
+      --slide-width: min(1180px, 96vw);
+      --slide-height: min(680px, 92vh);
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: clamp(12px, 2vw, 28px);
+      background:
+        radial-gradient(circle at 18% 20%, rgba(242, 195, 92, 0.28), transparent 55%),
+        radial-gradient(circle at 78% 16%, rgba(44, 184, 163, 0.24), transparent 48%),
+        linear-gradient(160deg, #08101b, #0f2336 55%, #0a1626);
+      color: var(--text-main);
+      font-family: "Work Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main {
+      position: relative;
+      width: var(--slide-width);
+      height: var(--slide-height);
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: linear-gradient(140deg, rgba(10, 22, 38, 0.94), rgba(16, 49, 74, 0.9));
+      box-shadow: 0 36px 80px rgba(4, 12, 30, 0.55);
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: clamp(32px, 5vw, 54px);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: clamp(18px, 3vw, 28px);
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 320ms ease, transform 320ms ease;
+      pointer-events: none;
+    }
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .slide h1 {
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.3rem, 4vw, 3.1rem);
+      letter-spacing: 0.04em;
+    }
+    .slide h2 {
+      margin: 0;
+      font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .content {
+      display: grid;
+      gap: clamp(16px, 2vw, 22px);
+      font-size: clamp(1rem, 2.1vw, 1.3rem);
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .content strong {
+      color: #fff;
+      font-weight: 600;
+    }
+    ul, ol {
+      margin: 0;
+      padding-left: clamp(20px, 3vw, 32px);
+    }
+    .footer-note {
+      margin-top: auto;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      letter-spacing: 0.05em;
+      color: rgba(243, 246, 255, 0.72);
+    }
+    .dots {
+      position: absolute;
+      bottom: 18px;
+      right: clamp(24px, 4vw, 42px);
+      display: flex;
+      gap: 8px;
+    }
+    .dots button {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: transform 200ms ease, background 200ms ease;
+    }
+    .dots button.active {
+      background: var(--teal);
+      transform: scale(1.2);
+    }
+    @media (max-width: 900px) {
+      :root {
+        --slide-height: min(720px, 100vh - 48px);
+      }
+      .content {
+        font-size: 1rem;
+      }
+      .dots {
+        right: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main id="deck">
+    <section class="slide active">
+      <header>
+        <h2>Announcements • January 2026</h2>
+        <h1>Welcome to KICC Wolverhampton</h1>
+      </header>
+      <div class="content">
+        <p>Welcome to KICC (Kingsway International Christian Centre). Where champions are raised and territories are taken for God.</p>
+        <p>Our vision as a church is to <strong>Grow Up</strong>, <strong>Grow Big</strong>, and <strong>Grow Together</strong>.</p>
+      </div>
+      <p class="footer-note">God bless you big! We’re glad you’re here.</p>
+    </section>
+
+    <section class="slide">
+      <header>
+        <h2>Weekly Gatherings</h2>
+        <h1>Worship Times</h1>
+      </header>
+      <div class="content">
+        <p><strong>Sundays at 11:00&nbsp;AM</strong></p>
+        <p>Our doors open from 10:00&nbsp;AM for set up. Come early, settle in, and invite someone to worship with you.</p>
+      </div>
+      <p class="footer-note">Let’s build expectation every Sunday.</p>
+    </section>
+
+    <section class="slide">
+      <header>
+        <h2>Midweek Service</h2>
+        <h1>Tuesdays on Zoom</h1>
+      </header>
+      <div class="content">
+        <p><strong>Tuesdays • 7:00&nbsp;PM &ndash; 8:00&nbsp;PM</strong></p>
+        <p>Our midweek service is every Tuesday via Zoom. The Zoom ID is on the screen.</p>
+      </div>
+      <p class="footer-note">Stay plugged in throughout the week.</p>
+    </section>
+
+    <section class="slide">
+      <header>
+        <h2>Small Groups</h2>
+        <h1>Caring Heart Fellowship</h1>
+      </header>
+      <div class="content">
+        <p>We meet for Caring Heart Fellowship every Friday at 7:00&nbsp;PM. This is one hour of interactive discussion of God’s Word.</p>
+        <p>This is virtual via Zoom.</p>
+      </div>
+      <p class="footer-note">Let’s learn, share, and grow together.</p>
+    </section>
+
+    <section class="slide">
+      <header>
+        <h2>Stay Connected</h2>
+        <h1>Social Media</h1>
+      </header>
+      <div class="content">
+        <ul>
+          <li><strong>Facebook:</strong> Like our page — KICC Wolverhampton</li>
+          <li><strong>X:</strong> Follow @Kicc&nbsp;Wolv</li>
+          <li><strong>YouTube:</strong> Subscribe @KiccWolverhampton to watch our live stream every Sunday</li>
+          <li><strong>Email:</strong> kiccwolverhampton@kicc.org.uk</li>
+        </ul>
+        <p>Like, follow, subscribe, and share to keep the conversation going all week.</p>
+      </div>
+      <p class="footer-note">Your share could change a life.</p>
+    </section>
+
+    <section class="slide">
+      <header>
+        <h2>Watch Anytime</h2>
+        <h1>KICC TV</h1>
+      </header>
+      <div class="content">
+        <p>We have our own TV station where you can watch live innovative and dynamic Christian programs.</p>
+        <ul>
+          <li>Find us on Sky TV</li>
+          <li>Download on your mobile device</li>
+          <li>Stream via <strong>kicctv.tv</strong></li>
+        </ul>
+      </div>
+      <p class="footer-note">Take the Word with you wherever you go.</p>
+    </section>
+
+    <section class="slide">
+      <header>
+        <h2>Pastoral Care</h2>
+        <h1>Be Your Brother’s Keeper</h1>
+      </header>
+      <div class="content">
+        <p>If you know of anyone that has not been in church for more than two weeks, please call or visit them and encourage them to return.</p>
+        <p><strong>Hebrews 10:25:</strong> “Not giving up meeting together, as some are in the habit of doing, but encouraging one another.”</p>
+        <p>If there is a reason they are unable to attend church, please speak to the pastor and we will contact them.</p>
+      </div>
+      <p class="footer-note">Your care keeps the family strong.</p>
+    </section>
+
+    <section class="slide">
+      <header>
+        <h2>Morning Devotion</h2>
+        <h1>Morning Glow</h1>
+      </header>
+      <div class="content">
+        <p>Start your day in God’s presence with our Senior Pastor, <strong>Matthew Ashimolowo</strong>.</p>
+        <p><strong>Monday to Friday • 6:00&nbsp;AM &ndash; 7:00&nbsp;AM</strong></p>
+        <p>Log on each morning, pray along, and speak blessings over your day.</p>
+      </div>
+      <p class="footer-note">Rise early &mdash; expect fresh fire.</p>
+    </section>
+
+    <section class="slide">
+      <header>
+        <h2>Conference Update</h2>
+        <h1>IGOC 2026 • School of Ministry</h1>
+      </header>
+      <div class="content">
+        <p>Registration for IGOC 2026 – School of Ministry is now open.</p>
+        <p><strong>Early Registration (until 4 January 2026)</strong></p>
+        <ul>
+          <li>£30 &mdash; Attend in-person or online</li>
+          <li>£40 Flex Pass &mdash; Total access with the ability to switch between in-person and online</li>
+        </ul>
+        <p>After 4 January, the £30 rate closes and registration returns to £40.</p>
+        <p><strong>Your registration includes:</strong></p>
+        <ul>
+          <li>4 School of Ministry sessions</li>
+          <li>4 Winning Conversations (Q&amp;A with seasoned ministers)</li>
+          <li>4 Masterclasses</li>
+          <li>Free evening revival sessions</li>
+        </ul>
+      </div>
+      <p class="footer-note">Secure your spot early and come expectant.</p>
+    </section>
+
+    <section class="slide">
+      <header>
+        <h2>Prophetic Focus</h2>
+        <h1>The Year 2026</h1>
+      </header>
+      <div class="content">
+        <p>2026 is our Year of Living in the Wealthy Place.</p>
+        <p><strong>Psalm 66:12:</strong> “Thou hast caused men to ride over our heads; we went through fire and through water: but thou broughtest us out into a wealthy place.”</p>
+        <p><strong>Prayer:</strong> I pray for early manifestation of the wealthy place God has prepared for you in Jesus’ name.</p>
+      </div>
+      <p class="footer-note">Step into the wealthy place God has prepared.</p>
+    </section>
+
+    <div class="dots" id="dots"></div>
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const dotsContainer = document.getElementById("dots");
+    const autoPlayCheckbox = { checked: false };
+
+    let currentIndex = 0;
+    let autoTimer = null;
+    const AUTO_INTERVAL = 15000;
+
+    function updateSlides(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === index);
+        if (dotsContainer.children[i]) {
+          dotsContainer.children[i].classList.toggle("active", i === index);
+        }
+      });
+      currentIndex = index;
+    }
+
+    function nextSlide() {
+      const nextIndex = (currentIndex + 1) % slides.length;
+      updateSlides(nextIndex);
+    }
+
+    function prevSlide() {
+      const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+      updateSlides(prevIndex);
+    }
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      autoTimer = window.setInterval(nextSlide, AUTO_INTERVAL);
+    }
+
+    function stopAutoPlay() {
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        autoTimer = null;
+      }
+    }
+
+    // build dots
+    slides.forEach((_, idx) => {
+      const dot = document.createElement("button");
+      dot.addEventListener("click", () => {
+        updateSlides(idx);
+        if (autoPlayCheckbox.checked) {
+          startAutoPlay();
+        }
+      });
+      dotsContainer.appendChild(dot);
+    });
+
+    // init
+    updateSlides(0);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "PageDown") {
+        nextSlide();
+        if (autoPlayCheckbox.checked) startAutoPlay();
+      } else if (event.key === "ArrowLeft" || event.key === "PageUp") {
+        prevSlide();
+        if (autoPlayCheckbox.checked) startAutoPlay();
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (event.target.closest(".auto-toggle") || event.target.closest(".dots")) {
+        return;
+      }
+      nextSlide();
+      if (autoPlayCheckbox.checked) {
+        startAutoPlay();
+      }
+    });
+
+    window.addEventListener("blur", () => {
+      stopAutoPlay();
+    });
+  </script>
+</body>
+</html>

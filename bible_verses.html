@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live Bible Verse Banner</title>
+  <style>
+    :root {
+      --highlight: #f5c441;
+      --highlight-soft: rgba(245, 196, 65, 0.14);
+      --panel: rgba(7, 12, 24, 0.62);
+      --panel-edge: rgba(255, 255, 255, 0.1);
+      --tag: #1c3f83;
+      --tag-text: #e8f1ff;
+      --text: #f8fbff;
+      --muted: rgba(248, 251, 255, 0.72);
+      --shadow: 0 18px 52px rgba(0, 0, 0, 0.45);
+      --font: "Poppins", "Segoe UI", "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--font);
+      letter-spacing: 0.01em;
+      overflow: hidden;
+      position: relative;
+      padding: 0 clamp(16px, 3vw, 48px) clamp(6px, 1.4vh, 18px);
+    }
+    .stage {
+      position: relative;
+      width: 100%;
+      max-width: 1920px;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+    }
+    .banner {
+      width: 100%;
+      max-width: 96vw;
+      display: grid;
+      grid-template-columns: clamp(180px, 18vw, 280px) 1fr;
+      border-radius: 12px 12px 0 0;
+      background: var(--panel);
+      border: 1px solid var(--panel-edge);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.42);
+      transform: translateY(120%);
+      opacity: 0;
+      transition: transform 420ms cubic-bezier(0.35, 0.9, 0.25, 1), opacity 320ms ease;
+      overflow: hidden;
+    }
+    .banner.is-active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .banner__meta {
+      background: linear-gradient(180deg, rgba(21, 35, 70, 0.8), rgba(9, 16, 32, 0.8));
+      padding: clamp(14px, 1.9vw, 26px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(8px, 1vw, 16px);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+    .banner__meta::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(245, 196, 65, 0.18), transparent 60%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    .banner__tag {
+      align-self: flex-start;
+      background: linear-gradient(135deg, var(--highlight), #f7e07b);
+      color: #1f2231;
+      padding: 0.38em 1.2em;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: clamp(10px, 0.95vw, 14px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.38);
+    }
+    .banner__ref {
+      font-size: clamp(14px, 1.3vw, 20px);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .banner__content {
+      position: relative;
+      padding: clamp(18px, 2.4vw, 30px) clamp(20px, 3vw, 40px);
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(19, 26, 46, 0.78), rgba(9, 12, 24, 0.74));
+    }
+    .banner__content::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(245, 196, 65, 0.18), transparent 55%);
+      pointer-events: none;
+    }
+    .banner__text {
+      position: relative;
+      font-size: clamp(18px, 2.4vw, 30px);
+      font-weight: 600;
+      line-height: 1.28;
+      letter-spacing: 0.02em;
+      text-shadow: 0 16px 35px rgba(0, 0, 0, 0.45);
+    }
+    .banner__text::before {
+      content: "";
+      position: absolute;
+      left: calc(-1 * clamp(12px, 1.6vw, 20px));
+      top: clamp(4px, 0.6vw, 10px);
+      bottom: clamp(4px, 0.6vw, 10px);
+      width: clamp(4px, 0.45vw, 8px);
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--highlight), rgba(245, 196, 65, 0.2));
+      box-shadow: 0 10px 22px rgba(245, 196, 65, 0.38);
+    }
+    .banner__text[data-empty="true"]::before {
+      display: none;
+    }
+    .controls {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+    .controls button {
+      pointer-events: auto;
+      background: none;
+      border: none;
+      color: transparent;
+      width: clamp(60px, 10vw, 120px);
+    }
+    .assistive {
+      position: fixed;
+      inset: auto auto clamp(12px, 2vh, 24px) clamp(12px, 2vw, 24px);
+      font-size: clamp(12px, 1vw, 15px);
+      color: rgba(248, 251, 255, 0.55);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    @media (max-width: 1024px) {
+      body {
+        padding: 0 clamp(12px, 4vw, 32px) clamp(6px, 1.6vh, 16px);
+      }
+      .banner {
+        grid-template-columns: clamp(150px, 26vw, 220px) 1fr;
+        border-radius: 10px 10px 0 0;
+      }
+      .banner__text::before {
+        left: calc(-1 * clamp(10px, 1.4vw, 16px));
+      }
+    }
+    @media (max-width: 720px) {
+      body {
+        padding: 0 clamp(10px, 4vw, 24px) clamp(4px, 1.8vh, 12px);
+      }
+      .banner {
+        grid-template-columns: 1fr;
+        border-radius: 10px 10px 0 0;
+      }
+      .banner__meta {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        align-items: flex-start;
+      }
+      .banner__text::before {
+        display: none;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .banner {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="banner" id="banner">
+      <div class="banner__meta">
+        <div class="banner__tag">Bible Verse</div>
+        <div class="banner__ref" id="verseRef"></div>
+      </div>
+      <div class="banner__content">
+        <div class="banner__text" id="verseText" data-empty="true"></div>
+      </div>
+    </div>
+    <div class="controls" aria-hidden="true">
+      <button type="button" id="prevBtn">Previous</button>
+      <button type="button" id="nextBtn">Next</button>
+    </div>
+  </div>
+  <div class="assistive">←/→ or Space to control • Hold Shift+Space to go back</div>
+  <script id="versesData" type="application/json">
+[
+  {
+    "text": "Therefore, since we have these promises, dear friends, let us purify ourselves from everything that contaminates body and spirit, perfecting holiness out of reverence for God.",
+    "ref": "2 Corinthians 7:1 NIV"
+  },
+  {
+    "text": "But just as he who called you is holy, so be holy in all you do; for it is written: “Be holy, because I am holy.”",
+    "ref": "1 Peter 1:15–16 NIV"
+  },
+  {
+    "text": "Therefore, I urge you, brothers and sisters, in view of God’s mercy, to offer your bodies as a living sacrifice, holy and pleasing to God—this is your true and proper worship.",
+    "ref": "Romans 12:1 NIV"
+  },
+  {
+    "text": "Make every effort to live in peace with everyone and to be holy; without holiness no one will see the Lord.",
+    "ref": "Hebrews 12:14 NIV"
+  },
+  {
+    "text": "It is God’s will that you should be sanctified: that you should avoid sexual immorality; that each of you should learn to control your own body in a way that is holy and honorable, not in passionate lust like the pagans, who do not know God;",
+    "ref": "1 Thessalonians 4:3–5 NIV"
+  },
+  {
+    "text": "Since, then, we know what it is to fear the Lord, we try to persuade others. What we are is plain to God, and I hope it is also plain to your conscience. We are not trying to commend ourselves to you again, but are giving you an opportunity to take pride in us, so that you can answer those who take pride in what is seen rather than in what is in the heart.",
+    "ref": "2 Corinthians 5:11–12 NIV"
+  },
+  {
+    "text": "If we are “out of our mind,” as some say, it is for God; if we are in our right mind, it is for you. For Christ’s love compels us, because we are convinced that one died for all, and therefore all died. And he died for all, that those who live should no longer live for themselves but for him who died for them and was raised again.",
+    "ref": "2 Corinthians 5:13–15 NIV"
+  },
+  {
+    "text": "So from now on we regard no one from a worldly point of view. Though we once regarded Christ in this way, we do so no longer. Therefore, if anyone is in Christ, the new creation has come. The old has gone, the new is here. All this is from God, who reconciled us to himself through Christ and gave us the ministry of reconciliation:",
+    "ref": "2 Corinthians 5:16–18 NIV"
+  },
+  {
+    "text": "that God was reconciling the world to himself in Christ, not counting people’s sins against them. And he has committed to us the message of reconciliation. We are therefore Christ’s ambassadors, as though God were making his appeal through us. We implore you on Christ’s behalf. Be reconciled to God.",
+    "ref": "2 Corinthians 5:19–20 NIV"
+  },
+  {
+    "text": "In the year that King Uzziah died, I saw the Lord, high and exalted, seated on a throne; and the train of his robe filled the temple. Above him were seraphim, each with six wings. With two wings they covered their faces, with two they covered their feet, and with two they were flying. And they were calling to one another: “Holy, holy, holy is the Lord Almighty. The whole earth is full of his glory.”",
+    "ref": "Isaiah 6:1–3 NIV"
+  },
+  {
+    "text": "At the sound of their voices the doorposts and thresholds shook and the temple was filled with smoke. “Woe to me” I cried. “I am ruined. For I am a man of unclean lips, and I live among a people of unclean lips, and my eyes have seen the King, the Lord Almighty.” Then one of the seraphim flew to me with a live coal in his hand, which he had taken with tongs from the altar.",
+    "ref": "Isaiah 6:4–6 NIV"
+  },
+  {
+    "text": "We know that the law is spiritual; but I am unspiritual, sold as a slave to sin. I do not understand what I do. For what I want to do I do not do, but what I hate I do. And if I do what I do not want to do, I agree that the law is good. As it is, it is no longer I myself who do it, but it is sin living in me. For I know that good itself does not dwell in me, that is, in my sinful nature. For I have the desire to do what is good, but I cannot carry it out.",
+    "ref": "Romans 7:14–18 NIV"
+  },
+  {
+    "text": "What a wretched man I am. Who will rescue me from this body that is subject to death? Thanks be to God, who delivers me through Jesus Christ our Lord. So then, I myself in my mind am a slave to God’s law, but in my sinful nature a slave to the law of sin.",
+    "ref": "Romans 7:24–25 NIV"
+  },
+  {
+    "text": "So he said to me, “This is the word of the Lord to Zerubbabel. Not by might nor by power, but by my Spirit,” says the Lord Almighty.",
+    "ref": "Zechariah 4:6 NIV"
+  },
+  {
+    "text": "“Those who are united to Christ and effectually called and regenerated have a new heart and a new spirit created in them through the power of Christ’s death and resurrection. They are also further sanctified, really and personally, through the same power, by his Word and Spirit dwelling in them. The dominion of the whole body of sin is destroyed, and the various evil desires that arise from it are more and more weakened and put to death. At the same time, those called and regenerated are more and more enlivened and strengthened in all saving graces so that they practice true holiness, without which no one will see the Lord.”",
+    "ref": "Confessional excerpt"
+  },
+  {
+    "text": "“Holiness is the habit of being of one mind with God, according as we find His mind described in Scripture. It is the habit of agreeing with God’s judgment, hating what He hates, loving what He loves, and measuring everything in this world by the standard of His Word.”",
+    "ref": "J. C. Ryle, Holiness"
+  },
+  {
+    "text": "But you will receive power when the Holy Spirit comes on you, and you will be my witnesses in Jerusalem, and in all Judea and Samaria, and to the ends of the earth.",
+    "ref": "Acts 1:8 NIV"
+  },
+  {
+    "text": "Jesus looked at them and said, “With man this is impossible, but with God all things are possible.”",
+    "ref": "Matthew 19:26 NIV"
+  },
+  {
+    "text": "May God himself, the God of peace, sanctify you through and through. May your whole spirit, soul and body be kept blameless at the coming of our Lord Jesus Christ. The one who calls you is faithful, and he will do it.",
+    "ref": "1 Thessalonians 5:23–24 NIV"
+  },
+  {
+    "text": "And we all, who with unveiled faces contemplate the Lord’s glory, are being transformed into his image with ever increasing glory, which comes from the Lord, who is the Spirit.",
+    "ref": "2 Corinthians 3:18 NIV"
+  },
+  {
+    "text": "But the Advocate, the Holy Spirit, whom the Father will send in my name, will teach you all things and will remind you of everything I have said to you.",
+    "ref": "John 14:26 NIV"
+  },
+  {
+    "text": "Therefore, I urge you, brothers and sisters, in view of God’s mercy, to offer your bodies as a living sacrifice, holy and pleasing to God. This is your true and proper worship. Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God’s will is, his good, pleasing and perfect will.",
+    "ref": "Romans 12:1–2 NIV"
+  },
+  {
+    "text": "We demolish arguments and every pretension that sets itself up against the knowledge of God, and we take captive every thought to make it obedient to Christ.",
+    "ref": "2 Corinthians 10:5 NIV"
+  },
+  {
+    "text": "Blessed is the one who does not walk in step with the wicked or stand in the way that sinners take or sit in the company of mockers, but whose delight is in the law of the Lord, and who meditates on his law day and night.",
+    "ref": "Psalms 1:1–2 NIV"
+  },
+  {
+    "text": "Finally, brothers and sisters, whatever is true, whatever is noble, whatever is right, whatever is pure, whatever is lovely, whatever is admirable, if anything is excellent or praiseworthy, think about such things.",
+    "ref": "Philippians 4:8 NIV"
+  },
+  {
+    "text": "Do not be yoked together with unbelievers. For what do righteousness and wickedness have in common. Or what fellowship can light have with darkness.",
+    "ref": "2 Corinthians 6:14 NIV"
+  },
+  {
+    "text": "Not forsaking the assembling of ourselves together, as is the manner of some, but exhorting one another, and so much the more as you see the Day approaching.",
+    "ref": "Hebrews 10:25 NKJV"
+  },
+  {
+    "text": "As iron sharpens iron, so a man sharpens the countenance of his friend.",
+    "ref": "Proverbs 27:17 NKJV"
+  },
+  {
+    "text": "Do not rejoice over me, my enemy. When I fall, I will arise. When I sit in darkness, the Lord will be a light to me.",
+    "ref": "Micah 7:8 NKJV"
+  },
+  {
+    "text": "Make every effort to live in peace with everyone and to be holy. Without holiness no one will see the Lord.",
+    "ref": "Hebrews 12:14 NIV"
+  },
+  {
+    "text": "And these words which I command you today shall be in your heart. You shall teach them diligently to your children, and shall talk of them when you sit in your house, when you walk by the way, when you lie down, and when you rise up.",
+    "ref": "Deuteronomy 6:6–7 NKJV"
+  },
+  {
+    "text": "Then I heard a loud voice saying in heaven, “Now salvation, and strength, and the kingdom of our God, and the power of His Christ have come, for the accuser of our brethren, who accused them before our God day and night, has been cast down.”",
+    "ref": "Revelation 12:10 NKJV"
+  }
+]
+  </script>
+  <script>
+    (function(){
+      const raw = document.getElementById('versesData').textContent.trim();
+      const verses = JSON.parse(raw);
+      const verseRef = document.getElementById('verseRef');
+      const verseText = document.getElementById('verseText');
+      const banner = document.getElementById('banner');
+      const nextBtn = document.getElementById('nextBtn');
+      const prevBtn = document.getElementById('prevBtn');
+      const params = new URLSearchParams(location.search);
+      const startParam = params.get('start');
+      let idx = 0;
+      if(startParam){
+        const parsed = parseInt(startParam, 10);
+        if(!Number.isNaN(parsed)){
+          idx = Math.min(Math.max(parsed - 1, 0), verses.length - 1);
+        }
+      }
+
+      function update(index, animate = true){
+        if(!verses.length){ return; }
+        idx = (index + verses.length) % verses.length;
+        const current = verses[idx];
+        verseRef.textContent = current.ref || '';
+        verseText.textContent = current.text || '';
+        verseText.dataset.empty = String(!current.text);
+        if(!animate){
+          banner.classList.add('is-active');
+          return;
+        }
+        banner.classList.remove('is-active');
+        void banner.offsetWidth;
+        banner.classList.add('is-active');
+      }
+
+      function next(){
+        update(idx + 1);
+      }
+      function prev(){
+        update(idx - 1);
+      }
+
+      nextBtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        next();
+      });
+      prevBtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        prev();
+      });
+      window.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowRight' || (e.key === ' ' && !e.shiftKey)){
+          e.preventDefault();
+          next();
+        } else if(e.key === 'ArrowLeft' || (e.key === ' ' && e.shiftKey)){
+          e.preventDefault();
+          prev();
+        }
+      });
+
+      update(idx, false);
+    })();
+  </script>
+</body>
+</html>

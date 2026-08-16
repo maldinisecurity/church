@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christmas Overlay • KICC Wolverhampton</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pine: #0d1a13;
+      --evergreen: #123424;
+      --cranberry: #c83d38;
+      --cranberry-glow: rgba(200, 61, 56, 0.32);
+      --gold: #e0c27a;
+      --gold-soft: rgba(224, 194, 122, 0.2);
+      --frost: #f6f7fb;
+      --muted: rgba(246, 247, 251, 0.82);
+      --glass: rgba(255, 255, 255, 0.08);
+      --border: rgba(255, 255, 255, 0.18);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background:
+        radial-gradient(circle at 18% 14%, var(--gold-soft), transparent 34%),
+        radial-gradient(circle at 82% 12%, var(--cranberry-glow), transparent 32%),
+        radial-gradient(circle at 50% 82%, rgba(255,255,255,0.08), transparent 40%),
+        linear-gradient(135deg, var(--pine), var(--evergreen) 52%, #5a1c15);
+      color: var(--frost);
+      font-family: 'Work Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
+      padding: 12px;
+    }
+    .snow, .twinkles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .snow {
+      background-image:
+        radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 50% 10%, rgba(255,255,255,0.75), transparent),
+        radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 70% 80%, rgba(255,255,255,0.65), transparent);
+      animation: snowfall 26s linear infinite;
+      opacity: 0.75;
+    }
+    .twinkles {
+      background-image:
+        radial-gradient(1.5px 1.5px at 15% 24%, rgba(224,194,122,0.7), transparent),
+        radial-gradient(1.5px 1.5px at 75% 18%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1.5px 1.5px at 55% 12%, rgba(224,194,122,0.65), transparent);
+      animation: twinkle 4s ease-in-out infinite alternate;
+      opacity: 0.9;
+    }
+    @keyframes snowfall {
+      from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+      to { background-position: 0 220px, 0 260px, 0 280px, 0 240px, 0 260px; }
+    }
+    @keyframes twinkle {
+      from { opacity: 0.7; }
+      to { opacity: 1; }
+    }
+    .wrap {
+      position: relative;
+      width: min(1080px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 3;
+    }
+    header {
+      position: relative;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(0,0,0,0.18), rgba(0,0,0,0.1)),
+        linear-gradient(135deg, #7a2a1f, #0f2e22);
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.4);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .garland {
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(105deg, rgba(224,194,122,0.5) 0 10px, transparent 10px 24px),
+        repeating-linear-gradient(-105deg, rgba(200,61,56,0.4) 0 10px, transparent 10px 24px);
+      mask: linear-gradient(180deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0) 46%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .title {
+      position: relative;
+      margin: 0;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: 0.1em;
+      text-align: center;
+      font-family: 'Marcellus', serif;
+    }
+    .title small {
+      display: block;
+      font-size: 0.8rem;
+      letter-spacing: 0.24em;
+      margin-top: 4px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .spin-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 90px;
+      height: 90px;
+      perspective: 1200px;
+      flex: 0 0 auto;
+      z-index: 1;
+    }
+    .spin-box {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      transform-style: preserve-3d;
+      animation: spin3d 12s linear infinite;
+    }
+    .spin-box img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,0.35));
+    }
+    .spin-caption {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: rgba(246,247,251,0.82);
+      text-shadow: 0 3px 8px rgba(0,0,0,0.4);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .spin-box:hover { animation-duration: 18s; }
+    @keyframes spin3d {
+      0% { transform: rotateY(0deg); }
+      100% { transform: rotateY(360deg); }
+    }
+    .countdown-row {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(120px, 1fr));
+      gap: 8px;
+    }
+    .count-box {
+      background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .count-value {
+      display: block;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.4vw, 2rem);
+      letter-spacing: 0.08em;
+    }
+    .count-label {
+      display: block;
+      font-size: 0.82rem;
+      letter-spacing: 0.16em;
+      color: rgba(246,247,251,0.8);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      position: relative;
+      background: linear-gradient(160deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px 18px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Marcellus', serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.02em;
+    }
+    .icon {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(224,194,122,0.24), rgba(200,61,56,0.24));
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 1.1rem;
+    }
+    p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.98rem;
+    }
+    strong { color: var(--gold); }
+    .badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(200,61,56,0.18);
+      border: 1px solid rgba(200,61,56,0.36);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+    }
+    .divider {
+      height: 6px;
+      background:
+        repeating-linear-gradient(90deg, rgba(224,194,122,0.5) 0 18px, transparent 18px 32px),
+        repeating-linear-gradient(-90deg, rgba(200,61,56,0.35) 0 18px, transparent 18px 32px);
+      opacity: 0.7;
+      border-radius: 999px;
+    }
+    .audio-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--frost);
+      font-size: 0.9rem;
+    }
+    .audio-toggle .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--cranberry);
+      box-shadow: 0 0 0 6px rgba(200,61,56,0.2);
+      transition: background 180ms ease, box-shadow 180ms ease;
+    }
+    .audio-toggle.active .dot {
+      background: #4ad2b5;
+      box-shadow: 0 0 0 6px rgba(74,210,181,0.24);
+    }
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      padding: 8px 2px 2px;
+    }
+    @media (max-width: 640px) {
+      .countdown-row { grid-template-columns: repeat(3, minmax(90px, 1fr)); }
+      .spin-container { display: none; }
+      header { text-align: center; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="snow" aria-hidden="true"></div>
+  <div class="twinkles" aria-hidden="true"></div>
+  <div class="wrap">
+    <header>
+      <div class="garland" aria-hidden="true"></div>
+      <div class="spin-container" aria-hidden="true">
+        <div class="spin-box">
+          <img src="../kicc.png" alt="KICC logo spinning">
+          <div class="spin-caption">Wolverhampton</div>
+        </div>
+      </div>
+      <h1 class="title">
+        KICC Wolverhampton
+        <small>Sunday Service • Welcome Home</small>
+      </h1>
+      <div class="countdown-row" aria-live="polite">
+        <div class="count-box">
+          <span class="count-value" id="count-hours">--</span>
+          <span class="count-label">HOURS</span>
+        </div>
+        <div class="count-box">
+          <span class="count-value" id="count-mins">--</span>
+          <span class="count-label">MINS</span>
+        </div>
+        <div class="count-box">
+          <span class="count-value" id="count-secs">--</span>
+          <span class="count-label">SECS</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <div class="grid">
+      <section class="card">
+        <h3><span class="icon" aria-hidden="true">⛪</span>Sunday Service</h3>
+        <p><strong>Doors open:</strong> 10:30 AM • <strong>Service:</strong> 11:00 AM</p>
+        <p><strong>Location:</strong> Dunstall Hill Community Centre, WV6 0NH</p>
+        <p><strong>Expectation:</strong> Warm welcome, worship, Word, and fellowship.</p>
+      </section>
+
+      <section class="card">
+        <h3><span class="icon" aria-hidden="true">🤝</span>Service Moment</h3>
+        <p><strong>Prayer & Worship:</strong> Join in heartfelt praise and corporate prayer.</p>
+        <p><strong>Families:</strong> Blessing over households and children.</p>
+        <p><strong>Connect:</strong> Meet the team after service—we’d love to say hello.</p>
+      </section>
+
+      <section class="card">
+        <h3><span class="icon" aria-hidden="true">⭐</span>Hope for Today</h3>
+        <p id="verse">For to us a child is born... — Isaiah 9:6</p>
+        <p style="margin:0;"><strong>Refreshes every few seconds.</strong></p>
+      </section>
+    </div>
+
+    <footer>
+      <button class="audio-toggle" id="audioBtn" type="button">
+        <span class="dot"></span><span id="audioLabel">Play bells (muted)</span>
+      </button>
+      <div>Swap the header background image or colors here to match any slide deck.</div>
+    </footer>
+  </div>
+
+  <audio id="chime" preload="auto">
+    <source src="Xmas No Copyright Music  No Copyright Christmas Background Music - ETflicks (youtube).mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const hoursEl = document.getElementById('count-hours');
+    const minsEl = document.getElementById('count-mins');
+    const secsEl = document.getElementById('count-secs');
+    const verseEl = document.getElementById('verse');
+    const audioBtn = document.getElementById('audioBtn');
+    const audioLabel = document.getElementById('audioLabel');
+    const chime = document.getElementById('chime');
+
+    const pad = (n) => String(n).padStart(2, '0');
+
+    // Countdown to next Sunday 11:00 AM
+    const updateCountdown = () => {
+      const now = new Date();
+      const day = now.getDay();
+      const daysToSunday = (7 - day) % 7;
+      const target = new Date(now);
+      target.setDate(now.getDate() + daysToSunday);
+      target.setHours(11, 0, 0, 0);
+      const diff = Math.max(0, target - now);
+      const totalSecs = Math.floor(diff / 1000);
+      const hours = Math.floor(totalSecs / 3600);
+      const mins = Math.floor((totalSecs % 3600) / 60);
+      const secs = totalSecs % 60;
+      hoursEl.textContent = pad(hours);
+      minsEl.textContent = pad(mins);
+      secsEl.textContent = pad(secs);
+    };
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Rotate a few Christmas verses locally
+    const verses = [
+      "For to us a child is born, to us a son is given. — Isaiah 9:6",
+      "The Word became flesh and dwelt among us. — John 1:14",
+      "Glory to God in the highest, and on earth peace. — Luke 2:14",
+      "You will find a baby wrapped in cloths and lying in a manger. — Luke 2:12"
+    ];
+    let verseIndex = 0;
+    const rotateVerse = () => {
+      verseIndex = (verseIndex + 1) % verses.length;
+      verseEl.textContent = verses[verseIndex];
+    };
+    setInterval(rotateVerse, 8000);
+
+    // Audio toggle (muted by default)
+    audioBtn.addEventListener('click', () => {
+      if (chime.paused) {
+        chime.loop = true;
+        chime.volume = 0.08;
+        chime.play().catch(() => {});
+        audioBtn.classList.add('active');
+        audioLabel.textContent = 'Pause bells';
+      } else {
+        chime.pause();
+        audioBtn.classList.remove('active');
+        audioLabel.textContent = 'Play bells (muted)';
+      }
+    });
+  </script>
+</body>
+</html>

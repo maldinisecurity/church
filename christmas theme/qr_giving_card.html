@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Giving Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pine: #0d1a13;
+      --evergreen: #123424;
+      --cranberry: #c83d38;
+      --gold: #e0c27a;
+      --border: rgba(255,255,255,0.18);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      font-family: 'Work Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #f6f7fb;
+      padding: 12px;
+    }
+    .card {
+      position: relative;
+      width: min(520px, 92vw);
+      padding: 18px;
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(0,0,0,0.18), rgba(0,0,0,0.1)),
+        linear-gradient(135deg, var(--pine), var(--evergreen) 60%, #5a1c15);
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 42px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-family: 'Marcellus', serif;
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      letter-spacing: 0.05em;
+    }
+    .info {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      color: rgba(246,247,251,0.85);
+      line-height: 1.6;
+    }
+    .label { color: var(--gold); font-weight: 700; }
+    .qr {
+      width: 140px;
+      height: 140px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.08);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    .qr img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px 14px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>KICC Wolverhampton • Giving</h1>
+    <div class="grid">
+      <div class="qr">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fkicc.app.thedonationapp.com%2Fdonate%2F1663266911" alt="Giving QR code">
+      </div>
+      <div>
+        <p class="info"><span class="label">Account Name:</span> Kingsway International Christian Centre</p>
+        <p class="info"><span class="label">Sort Code:</span> 515003</p>
+        <p class="info"><span class="label">Account Number:</span> 65628470</p>
+        <p class="info"><span class="label">Reference:</span> WOLVERHAMPTON</p>
+        <p class="info"><span class="label">Thank You:</span> Use the reference above when giving.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

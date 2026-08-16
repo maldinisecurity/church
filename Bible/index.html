@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projector Bible</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="control-panel">
+      <div>
+        <p class="eyebrow">Projector Bible</p>
+        <h1>Scripture slides built for the screen.</h1>
+        <p class="intro">
+          Search a passage, then step through verse-by-verse slides with large text and minimal distractions.
+        </p>
+      </div>
+
+      <form id="search-form" class="search-form">
+        <label class="field">
+          <span>Passage</span>
+          <input
+            id="reference-input"
+            name="reference"
+            type="text"
+            placeholder="John 3:16-18"
+            autocomplete="off"
+            required
+          >
+        </label>
+
+        <label class="field">
+          <span>Translation</span>
+          <select id="translation-select" name="translation">
+            <option value="web">World English Bible</option>
+            <option value="kjv">King James Version</option>
+            <option value="asv">American Standard Version</option>
+            <option value="oeb-us">Open English Bible</option>
+          </select>
+        </label>
+
+        <div class="actions">
+          <button type="submit" class="primary-btn">Load Passage</button>
+          <button type="button" id="open-projector-btn" class="secondary-btn">Open Projector</button>
+        </div>
+      </form>
+
+      <section class="quick-picks">
+        <div class="section-heading">
+          <h2>Quick picks</h2>
+          <p>Useful projector-ready passages.</p>
+        </div>
+        <div class="quick-pick-grid">
+          <button type="button" class="quick-pick" data-reference="Psalm 23" data-translation="web">Psalm 23</button>
+          <button type="button" class="quick-pick" data-reference="John 3:16-17" data-translation="web">John 3:16-17</button>
+          <button type="button" class="quick-pick" data-reference="Romans 8:28-39" data-translation="web">Romans 8:28-39</button>
+          <button type="button" class="quick-pick" data-reference="1 Corinthians 13:4-8" data-translation="web">1 Corinthians 13:4-8</button>
+        </div>
+      </section>
+
+      <section class="settings">
+        <div class="section-heading">
+          <h2>Display</h2>
+          <p>Fine tune for the room.</p>
+        </div>
+
+        <label class="toggle">
+          <input id="show-verse-numbers" type="checkbox" checked>
+          <span>Show verse numbers</span>
+        </label>
+
+        <label class="toggle">
+          <input id="high-contrast" type="checkbox">
+          <span>High contrast mode</span>
+        </label>
+
+        <label class="field">
+          <span>Text size</span>
+          <input id="font-size-range" type="range" min="48" max="120" value="72">
+        </label>
+      </section>
+
+      <section class="shortcuts">
+        <div class="section-heading">
+          <h2>Shortcuts</h2>
+        </div>
+        <ul>
+          <li><kbd>←</kbd> Previous preview verse</li>
+          <li><kbd>→</kbd> Next preview verse</li>
+          <li><kbd>Enter</kbd> Send preview to projector</li>
+          <li><kbd>F</kbd> Fullscreen projector window</li>
+          <li><kbd>H</kbd> Hide/show controls</li>
+        </ul>
+      </section>
+
+      <p id="status" class="status" aria-live="polite">Load a passage to begin.</p>
+    </aside>
+
+    <main class="stage-panel">
+      <div class="stage-meta preview-meta">
+        <div>
+          <p class="meta-label">Preview</p>
+          <p id="stage-reference">Ready</p>
+        </div>
+        <div class="meta-right">
+          <p class="meta-label">Translation</p>
+          <p id="stage-translation">Operator mode</p>
+        </div>
+      </div>
+
+      <section id="stage" class="stage empty" aria-live="polite">
+        <div class="empty-state">
+          <p class="empty-kicker">Projection Surface</p>
+          <h2>Search for a passage to display verses as slides.</h2>
+          <p>Each verse becomes its own readable frame for a projector or large display.</p>
+        </div>
+      </section>
+
+      <footer class="stage-footer">
+        <button type="button" id="prev-btn" class="nav-btn">Previous</button>
+        <button type="button" id="send-btn" class="primary-btn">Send To Projector</button>
+        <div class="slide-counter">
+          <span id="slide-position">0</span>
+          <span>/</span>
+          <span id="slide-total">0</span>
+        </div>
+        <button type="button" id="next-btn" class="nav-btn">Next</button>
+      </footer>
+    </main>
+  </div>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>

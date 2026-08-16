@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Starting Soon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: radial-gradient(circle at 25% 20%, rgba(245, 183, 79, 0.22), transparent 62%), #071626;
+      --accent: #f5b74f;
+      --teal: #29a48f;
+      --ticker-height: 80px;
+      --ticker-speed: 12s;
+    }
+    *{
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background:
+        linear-gradient(145deg, rgba(7, 22, 38, 0.95), rgba(12, 36, 56, 0.92)),
+        var(--bg);
+      color: #f6f8ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      padding: 32px 18px;
+      position: relative;
+    }
+    body::before,
+    body::after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      filter: blur(8px);
+      opacity: 0.55;
+    }
+    body::before{
+      width: 420px;
+      height: 420px;
+      top:-160px;
+      right:-140px;
+      background: radial-gradient(circle, rgba(41,164,143,0.35), transparent 70%);
+    }
+    body::after{
+      width: 360px;
+      height: 360px;
+      bottom:-180px;
+      left:-120px;
+      background: radial-gradient(circle, rgba(245,183,79,0.3), transparent 68%);
+    }
+    main{
+      position: relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:24px;
+      width: min(1080px, 100%);
+      text-align: center;
+      z-index:1;
+    }
+    h1{
+      margin:0;
+      font-family:'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.1rem);
+      letter-spacing: 0.04em;
+      text-shadow: 0 18px 36px rgba(0,0,0,0.45);
+    }
+    p.subtitle{
+      margin:6px 0 12px;
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+      color: rgba(246, 248, 255, 0.78);
+      letter-spacing: 0.03em;
+    }
+    .ticker-shell{
+      width: 100%;
+      background: rgba(6, 18, 31, 0.72);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 18px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 24px 50px rgba(3,10,20,0.45);
+    }
+    .ticker{
+      position: relative;
+      height: var(--ticker-height);
+      overflow: hidden;
+      border-radius: 14px;
+      background: linear-gradient(120deg, rgba(15, 46, 69, 0.9), rgba(6, 22, 37, 0.9));
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .ticker::before,
+    .ticker::after{
+      content:"";
+      position:absolute;
+      top:0;
+      width: 80px;
+      height:100%;
+      z-index:2;
+    }
+    .ticker::before{
+      left:0;
+      background: linear-gradient(to right, rgba(6, 12, 16, 0.65), transparent);
+    }
+    .ticker::after{
+      right:0;
+      background: linear-gradient(to left, rgba(6, 12, 16, 0.65), transparent);
+    }
+    .track{
+      display:flex;
+      align-items:center;
+      gap: 68px;
+      height: 100%;
+      animation: ticker-move var(--ticker-speed) linear infinite;
+      will-change: transform;
+    }
+    .item{
+      display:flex;
+      align-items:center;
+      gap: 18px;
+      font-weight: 600;
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .item img{
+      height: 42px;
+      width: 42px;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 18px rgba(0,0,0,0.35));
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background: rgba(245, 183, 79, 0.16);
+      color: var(--accent);
+      border:1px solid rgba(245,183,79,0.45);
+      padding: 6px 14px;
+      border-radius:999px;
+      font-size: 0.8rem;
+      letter-spacing:0.12em;
+    }
+    .sep{
+      opacity:0.35;
+      font-weight:400;
+      letter-spacing:0.18em;
+    }
+    .cta-note{
+      margin:0;
+      font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+      color: rgba(246,248,255,0.7);
+      letter-spacing: 0.04em;
+    }
+    .cta-note strong{
+      color: #fff;
+    }
+    @keyframes ticker-move{
+      from{
+        transform: translateX(0);
+      }
+      to{
+        transform: translateX(-50%);
+      }
+    }
+    @media (max-width: 640px){
+      body{
+        padding: 40px 16px;
+      }
+      .ticker-shell{
+        padding: 14px;
+      }
+      .item img{
+        height: 34px;
+        width:34px;
+      }
+      .item{
+        gap:12px;
+      }
+      .pill{
+        font-size: 0.72rem;
+        padding:5px 12px;
+      }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .track{
+        animation: none;
+        transform: translateX(0);
+      }
+    }
+
+    body.ticker-only{
+      background: transparent;
+      padding: 0;
+      height: auto;
+      min-height: 0;
+      display: block;
+    }
+    body.ticker-only::before,
+    body.ticker-only::after{
+      display:none;
+    }
+    body.ticker-only main{
+      position: fixed;
+      inset: auto 0 24px 0;
+      margin: 0 auto;
+      width: min(90vw, 960px);
+      background: transparent;
+      gap: 12px;
+      align-items: stretch;
+    }
+    body.ticker-only h1,
+    body.ticker-only .subtitle,
+    body.ticker-only .cta-note,
+    body.ticker-only .view-toggle{
+      display: none;
+    }
+    body.ticker-only .ticker-shell{
+      padding: 0;
+      background: rgba(6, 18, 31, 0.78);
+    }
+    body.ticker-only .ticker{
+      height: 68px;
+    }
+    .view-toggle{
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.4);
+      background: rgba(6, 22, 37, 0.42);
+      color: #fff;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 200ms ease;
+    }
+    .view-toggle:hover{
+      background: rgba(6, 22, 37, 0.65);
+    }
+    body.ticker-only .view-toggle{
+      display: inline-flex;
+      position: fixed;
+      top: 16px;
+      right: 16px;
+    }
+  </style>
+</head>
+<body class="ticker-only">
+  <main>
+    <button class="view-toggle" id="view-toggle" type="button">Ticker Overlay Mode</button>
+    <h1>We’re Live in a Moment</h1>
+    <p class="subtitle">Grab your seat, greet a neighbour, and prepare your heart for worship.</p>
+    <div class="ticker-shell">
+      <div class="ticker" role="marquee" aria-label="Service starting soon ticker">
+        <div class="track" id="ticker-track" data-logo="kicc.png"></div>
+      </div>
+    </div>
+    <p class="cta-note"><strong>Need anything?</strong> Our welcome team is ready to help you get settled.</p>
+  </main>
+  <script>
+    const messages = [
+      { label: "Service Alert", text: "Service is starting soon" },
+      { label: "Welcome", text: "We’re so glad you’re here" },
+      { label: "Stay Connected", text: "Follow @KICC Wolverhampton" },
+      { label: "Sound Check", text: "Test your audio on Zoom" },
+      { label: "Giving", text: "Prepare your seed of thanksgiving" }
+    ];
+
+    const track = document.getElementById("ticker-track");
+    const logoSrc = track.dataset.logo || "kicc.png";
+
+    function createItem({ label, text }) {
+      const fragment = document.createDocumentFragment();
+
+      const item = document.createElement("div");
+      item.className = "item";
+
+      const logo = document.createElement("img");
+      logo.src = logoSrc;
+      logo.alt = "KICC Wolverhampton";
+
+      const pill = document.createElement("span");
+      pill.className = "pill";
+      pill.textContent = label;
+
+      const content = document.createElement("span");
+      content.textContent = text;
+
+      item.append(logo, pill, content);
+      fragment.appendChild(item);
+
+      const separator = document.createElement("span");
+      separator.className = "sep";
+      separator.textContent = "•";
+      fragment.appendChild(separator);
+
+      return fragment;
+    }
+
+    function populateTrack() {
+      track.innerHTML = "";
+      const fullMessages = [...messages, ...messages]; // duplicate for seamless loop
+      fullMessages.forEach((msg, index) => {
+        const fragment = createItem(msg);
+        track.appendChild(fragment);
+        if (index === fullMessages.length - 1) {
+          track.lastChild.remove(); // remove trailing separator
+        }
+      });
+    }
+
+    populateTrack();
+
+    const toggleButton = document.getElementById("view-toggle");
+
+    function setTickerOnlyMode(enable) {
+      document.body.classList.toggle("ticker-only", enable);
+      if (toggleButton) {
+        toggleButton.textContent = enable ? "Full Screen Mode" : "Ticker Overlay Mode";
+      }
+    }
+
+    toggleButton?.addEventListener("click", () => {
+      const nextState = !document.body.classList.contains("ticker-only");
+      setTickerOnlyMode(nextState);
+    });
+
+    function initFromParams() {
+      const params = new URLSearchParams(window.location.search);
+      const hash = window.location.hash.toLowerCase();
+      if (params.get("mode") === "overlay" || hash.includes("overlay")) {
+        setTickerOnlyMode(true);
+      }
+    }
+
+    initFromParams();
+    setTickerOnlyMode(document.body.classList.contains("ticker-only"));
+  </script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OBS Overlay Frame • Anniversary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Oswald:wght@400;600;700&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wine: #4a1124;
+      --wine-dark: #230811;
+      --ruby: #7d1c3b;
+      --gold: #e5c781;
+      --gold-soft: rgba(229, 199, 129, 0.24);
+      --frost: #f8f5ef;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      overflow: hidden;
+      font-family: 'Work Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      pointer-events: none;
+    }
+
+    .frame {
+      position: absolute;
+      inset: 10px;
+      border-radius: 22px;
+      border: 2px solid rgba(229,199,129,0.72);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(229,199,129,0.26), transparent 26%),
+        radial-gradient(circle at 88% 22%, rgba(255,255,255,0.08), transparent 24%),
+        linear-gradient(135deg, rgba(35,8,17,0.35), rgba(74,17,36,0.18), rgba(125,28,59,0.22));
+      box-shadow: 0 0 0 7px rgba(229,199,129,0.08), 0 20px 46px rgba(0,0,0,0.42);
+    }
+
+    .frame::after {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .title {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.24);
+      background: linear-gradient(135deg, rgba(125,28,59,0.46), rgba(229,199,129,0.2));
+      color: var(--frost);
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      text-align: center;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.34);
+      white-space: nowrap;
+    }
+
+    .verse {
+      position: absolute;
+      top: 66px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: rgba(248,245,239,0.9);
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(35,8,17,0.42);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .logo-wrap {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      width: 92px;
+      height: 92px;
+      perspective: 1200px;
+    }
+
+    .logo-spin {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      transform-style: preserve-3d;
+      animation: spin3d 12s linear infinite;
+    }
+
+    .logo-spin img {
+      width: 84%;
+      height: 84%;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,0.36));
+    }
+
+    .logo-cap {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: rgba(248,245,239,0.85);
+      text-shadow: 0 3px 7px rgba(0,0,0,0.4);
+      white-space: nowrap;
+    }
+
+    .side-card {
+      position: absolute;
+      right: 20px;
+      bottom: 92px;
+      width: min(370px, 36vw);
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background:
+        linear-gradient(135deg, rgba(74,17,36,0.72), rgba(35,8,17,0.72)),
+        linear-gradient(180deg, rgba(229,199,129,0.08), rgba(255,255,255,0.03));
+      box-shadow: 0 18px 36px rgba(0,0,0,0.34);
+      padding: 14px 16px;
+      color: var(--frost);
+      pointer-events: auto;
+      cursor: pointer;
+      transition: opacity 180ms ease;
+    }
+
+    .side-card .eyebrow {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-family: 'Oswald', sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: var(--gold-soft);
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .side-card .name {
+      margin: 0;
+      font-family: 'Marcellus', serif;
+      font-size: clamp(1rem, 1.7vw, 1.35rem);
+      letter-spacing: 0.02em;
+      color: #fff;
+    }
+
+    .side-card.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .side-card .line {
+      margin-top: 8px;
+      font-size: clamp(0.8rem, 1.1vw, 0.9rem);
+      color: rgba(248,245,239,0.84);
+      letter-spacing: 0.02em;
+    }
+
+    .speaker-restore-zone {
+      position: absolute;
+      right: 20px;
+      bottom: 92px;
+      width: min(370px, 36vw);
+      min-height: 120px;
+      display: none;
+      pointer-events: none;
+      cursor: pointer;
+    }
+
+    .speaker-restore-zone.is-visible {
+      display: block;
+      pointer-events: auto;
+    }
+
+    .ticker-wrap {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      pointer-events: none;
+    }
+
+    .ticker-frame {
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: linear-gradient(135deg, rgba(35,8,17,0.78), rgba(74,17,36,0.56));
+      box-shadow: 0 16px 32px rgba(0,0,0,0.35);
+      padding: 6px;
+      overflow: hidden;
+    }
+
+    .ticker {
+      border-radius: 11px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: linear-gradient(135deg, rgba(229,199,129,0.24), rgba(125,28,59,0.22), rgba(255,255,255,0.08));
+      overflow: hidden;
+      position: relative;
+    }
+
+    .ticker::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 35%, rgba(229,199,129,0.28), transparent 32%),
+        radial-gradient(circle at 84% 18%, rgba(255,255,255,0.14), transparent 30%);
+      opacity: 0.84;
+      pointer-events: none;
+    }
+
+    .track {
+      display: flex;
+      width: max-content;
+      gap: 16px;
+      align-items: center;
+      padding: 10px 14px;
+      white-space: nowrap;
+      animation: marquee 56s linear infinite;
+      font-size: clamp(0.9rem, 2vw, 1.08rem);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: var(--frost);
+    }
+
+    .item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(0,0,0,0.08));
+      box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+    }
+
+    .item span {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.8em;
+    }
+
+    @keyframes spin3d {
+      0% { transform: rotateY(0deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @media (max-width: 780px) {
+      .logo-wrap { width: 64px; height: 64px; }
+      .title { font-size: 0.84rem; padding: 8px 12px; }
+      .verse { top: 56px; font-size: 0.64rem; }
+      .side-card { width: 62vw; right: 14px; bottom: 88px; padding: 10px 12px; }
+      .speaker-restore-zone { width: 62vw; right: 14px; bottom: 88px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame"></div>
+
+  <div class="title">KICC Wolverhampton Presents • In His Presence</div>
+  <div class="verse">Psalm 16:11 • Celebrating 9 Years of God's Faithfulness</div>
+
+  <div class="logo-wrap" aria-hidden="true">
+    <div class="logo-spin">
+      <img src="../kicc.png" alt="KICC logo spinning">
+      <div class="logo-cap">Wolverhampton</div>
+    </div>
+  </div>
+
+  <div class="side-card" id="speaker-card">
+    <span class="eyebrow">Guest Speaker</span>
+    <p class="name">Pastor Dipo Oluyomi</p>
+    <div class="line">A day of thanksgiving, praise, prayer and the Word.</div>
+  </div>
+  <div class="speaker-restore-zone" id="speaker-restore-zone" aria-label="Show speaker card"></div>
+
+  <div class="ticker-wrap">
+    <div class="ticker-frame" aria-label="Anniversary event information ticker">
+      <div class="ticker">
+        <div class="track">
+          <div class="item">🎉 <span>Event:</span> In His Presence Anniversary Celebration</div>
+          <div class="item">📅 <span>Date:</span> Sunday 8 March 2026</div>
+          <div class="item">🕚 <span>Time:</span> From 11:00 AM</div>
+          <div class="item">📍 <span>Venue:</span> Dunstall Hill Community Centre</div>
+          <div class="item">🧭 <span>Address:</span> Dunstall Avenue, Whitmore Reans, WV6 0NH</div>
+          <div class="item">🎤 <span>Speaker:</span> Pastor Dipo Oluyomi</div>
+          <div class="item">🍽️ <span>After Service:</span> Refreshments</div>
+          <div class="item">🎉 <span>Event:</span> In His Presence Anniversary Celebration</div>
+          <div class="item">📅 <span>Date:</span> Sunday 8 March 2026</div>
+          <div class="item">🕚 <span>Time:</span> From 11:00 AM</div>
+          <div class="item">📍 <span>Venue:</span> Dunstall Hill Community Centre</div>
+          <div class="item">🧭 <span>Address:</span> Dunstall Avenue, Whitmore Reans, WV6 0NH</div>
+          <div class="item">🎤 <span>Speaker:</span> Pastor Dipo Oluyomi</div>
+          <div class="item">🍽️ <span>After Service:</span> Refreshments</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const speakerCard = document.getElementById('speaker-card');
+    const speakerRestoreZone = document.getElementById('speaker-restore-zone');
+
+    speakerCard.addEventListener('click', () => {
+      speakerCard.classList.add('is-hidden');
+      speakerRestoreZone.classList.add('is-visible');
+    });
+
+    speakerRestoreZone.addEventListener('click', () => {
+      speakerCard.classList.remove('is-hidden');
+      speakerRestoreZone.classList.remove('is-visible');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --midnight:#0a1626;
+            --navy:#10314a;
+            --teal:#2cb8a3;
+            --amber:#f2c35c;
+            --glass: rgba(255,255,255,0.14);
+            --ink:#0b1328;
+        }
+        *{
+            box-sizing:border-box;
+        }
+        body {
+            margin: 0;
+            padding: 32px 18px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background:
+                radial-gradient(80% 120% at 18% 18%, rgba(242,195,92,0.24), transparent 58%),
+                radial-gradient(70% 90% at 82% 8%, rgba(44,184,163,0.24), transparent 52%),
+                linear-gradient(135deg, var(--midnight), var(--navy) 55%, #0d2438);
+            background-size: 180% 180%;
+            animation: drift 18s ease-in-out infinite;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+        body::before{
+            content:"";
+            position:absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.16), transparent 68%);
+            top: -240px;
+            right: -140px;
+            filter: blur(12px);
+            opacity: .7;
+            z-index: -1;
+        }
+        body::after{
+            content:"";
+            position:absolute;
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(242,195,92,0.22), transparent 72%);
+            bottom: -240px;
+            left: -160px;
+            filter: blur(6px);
+            z-index: -1;
+        }
+        .container {
+            position: relative;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255,255,255,0.06));
+            padding: clamp(32px, 5vw, 56px);
+            border-radius: 24px;
+            box-shadow: 0 24px 64px rgba(6, 10, 28, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.22);
+            max-width: 580px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .container::before{
+            content:"";
+            position:absolute;
+            inset:-1px;
+            border-radius: inherit;
+            padding:1px;
+            background: linear-gradient(135deg, rgba(242,195,92,0.6), rgba(44,184,163,0.6), rgba(255,255,255,0.32));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events:none;
+            opacity:.9;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5vw, 3.5rem);
+            margin-bottom: 14px;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+            text-shadow: 0 18px 32px rgba(0,0,0,0.4);
+        }
+        p {
+            font-size: clamp(1.08rem, 2.2vw, 1.4rem);
+            margin: 12px 0;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.7;
+        }
+        .highlight {
+            font-weight: 700;
+            color: var(--amber);
+        }
+        .cta-group{
+            margin-top: 32px;
+            display:flex;
+            flex-direction:column;
+            gap:14px;
+            align-items:center;
+        }
+        .zoom-button{
+            position: relative;
+            display:inline-flex;
+            align-items:center;
+            gap:12px;
+            padding: 14px 30px;
+            border-radius:999px;
+            border:1px solid rgba(255,255,255,0.35);
+            background: linear-gradient(130deg, rgba(44,184,163,0.22), rgba(242,195,92,0.22));
+            color:#fff;
+            font-weight:700;
+            letter-spacing:0.06em;
+            text-decoration:none;
+            text-transform: uppercase;
+            box-shadow:0 18px 40px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.35);
+            transition: transform 160ms ease, box-shadow 160ms ease, background 180ms ease;
+            overflow:hidden;
+        }
+        .zoom-button::after{
+            content:"";
+            position:absolute;
+            inset:1px;
+            border-radius:999px;
+            background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.32), transparent 48%);
+            opacity:.75;
+            pointer-events:none;
+        }
+        .zoom-button:hover{
+            transform: translateY(-3px) scale(1.01);
+            background: linear-gradient(130deg, rgba(44,184,163,0.3), rgba(242,195,92,0.3));
+            box-shadow:0 24px 50px rgba(0,0,0,0.38);
+        }
+        .zoom-details {
+            margin-top: 6px;
+            font-size: 1rem;
+            line-height:1.6;
+            color: rgba(255,255,255,0.92);
+        }
+        .zoom-details strong{
+            color:#fff;
+        }
+        .social {
+            margin-top: 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 20px;
+            border-radius: 999px;
+            background: rgba(6, 12, 28, 0.35);
+            border: 1px solid rgba(255,255,255,0.18);
+            box-shadow: 0 14px 32px rgba(0,0,0,0.28);
+        }
+        .social img {
+            width: 28px;
+            height: 28px;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25));
+        }
+        .social a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 1.08rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+        @keyframes drift{
+            0%{ background-position: 0% 50%; }
+            50%{ background-position: 100% 50%; }
+            100%{ background-position: 0% 50%; }
+        }
+        @media (max-width: 540px){
+            body{
+                padding: 52px 16px;
+            }
+            .container{
+                padding: 28px 22px;
+            }
+            .zoom-button{
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Thank you for worshiping with us</h1>
+        <p>We loved sharing the presence of God with you today.</p>
+        <p>See you on <span class="highlight">Tuesday</span> for Midweek Service and again on <span class="highlight">Sunday</span>.</p>
+        <div class="cta-group">
+            <a class="zoom-button" href="https://zoom.us/j/86057035267?pwd=470262" target="_blank" rel="noopener">
+                <span aria-hidden="true">🎥</span> Join Midweek Service on Zoom
+            </a>
+            <div class="zoom-details">
+                <div><strong>Meeting ID:</strong> 860 5703 5267</div>
+                <div><strong>Passcode:</strong> 470262</div>
+            </div>
+        </div>
+        <div class="social">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook Logo">
+            <a href="https://www.facebook.com/KICC-Wolverhampton" target="_blank" rel="noopener">Follow KICC Wolverhampton</a>
+        </div>
+    </div>
+</body>
+</html>
